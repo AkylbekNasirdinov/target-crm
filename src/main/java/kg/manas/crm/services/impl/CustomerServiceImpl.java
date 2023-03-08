@@ -1,10 +1,12 @@
-package kg.manas.crm.service.impl;
+package kg.manas.crm.services.impl;
 
-import kg.manas.crm.entity.Customer;
-import kg.manas.crm.entity.UserServices;
+import kg.manas.crm.converters.CustomerConverter;
+import kg.manas.crm.entities.Customer;
+import kg.manas.crm.entities.UserServices;
+import kg.manas.crm.models.CustomerModel;
 import kg.manas.crm.repository.CustomerRepository;
 import kg.manas.crm.repository.UserServicesRepository;
-import kg.manas.crm.service.CustomerService;
+import kg.manas.crm.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final UserServicesRepository userServicesRepository;
 
     private final CustomerRepository customerRepository;
+    private final CustomerConverter customerConverter;
     @Override
     public Customer save(Customer customer) {
         return customerRepository.save(customer);
@@ -24,6 +27,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
+    }
+
+    @Override
+    public CustomerModel findModelById(Long id) {
+        return customerConverter.convetToModel(customerRepository.findById(id).orElseThrow());
     }
 
     @Override

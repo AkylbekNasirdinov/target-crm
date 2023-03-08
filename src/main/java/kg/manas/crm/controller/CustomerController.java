@@ -1,12 +1,10 @@
 package kg.manas.crm.controller;
 
-import kg.manas.crm.entity.Customer;
-import kg.manas.crm.service.CustomerService;
+import kg.manas.crm.entities.Customer;
+import kg.manas.crm.models.CustomerModel;
+import kg.manas.crm.services.CustomerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +17,10 @@ public class CustomerController {
     @GetMapping("/get-all")
     public List<Customer> getAll() {
        return customerService.getAllCustomers();
+    }
+    @GetMapping()
+    public CustomerModel fetchById(@RequestParam Long id) {
+        return customerService.findModelById(id);
     }
 
 

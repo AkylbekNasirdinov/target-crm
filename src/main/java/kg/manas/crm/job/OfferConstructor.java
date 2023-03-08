@@ -1,10 +1,10 @@
 package kg.manas.crm.job;
 
-import kg.manas.crm.entity.*;
+import kg.manas.crm.entities.*;
 import kg.manas.crm.repository.OfferRepository;
 import kg.manas.crm.repository.ServiceCategoryRepository;
 import kg.manas.crm.repository.ServiceRepository;
-import kg.manas.crm.service.CustomerService;
+import kg.manas.crm.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

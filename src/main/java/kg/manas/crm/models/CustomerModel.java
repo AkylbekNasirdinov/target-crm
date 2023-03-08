@@ -1,4 +1,4 @@
-package kg.manas.crm.model;
+package kg.manas.crm.models;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

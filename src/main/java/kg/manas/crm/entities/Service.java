@@ -1,11 +1,11 @@
-package kg.manas.crm.entity;
+package kg.manas.crm.entities;
 
-import javax.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity

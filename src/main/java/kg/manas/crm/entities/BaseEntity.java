@@ -1,4 +1,4 @@
-package kg.manas.crm.entity;
+package kg.manas.crm.entities;
 
 
 

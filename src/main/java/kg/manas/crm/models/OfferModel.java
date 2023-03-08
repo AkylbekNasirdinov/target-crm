@@ -1,0 +1,17 @@
+package kg.manas.crm.models;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class OfferModel {
+    Long id;
+    ServiceModel service;
+    CustomerModel customer;
+    Boolean isConfirmed;
+}

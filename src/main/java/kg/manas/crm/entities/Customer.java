@@ -1,4 +1,4 @@
-package kg.manas.crm.entity;
+package kg.manas.crm.entities;
 
 
 import lombok.AccessLevel;
@@ -6,7 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 
 @Entity

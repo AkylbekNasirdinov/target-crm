@@ -12,7 +12,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL81Dialect
         format_sql: true
-    show-sql: true
 
 job:
   offer-constructor:

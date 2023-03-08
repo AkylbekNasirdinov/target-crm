@@ -1,6 +1,6 @@
 package kg.manas.crm.repository;
 
-import kg.manas.crm.entity.UserServices;
+import kg.manas.crm.entities.UserServices;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

@@ -1,5 +1,7 @@
-package kg.manas.crm.entity;
+package kg.manas.crm.entities;
 import javax.persistence.*;
+
+import kg.manas.crm.models.ServiceCategoryModel;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
