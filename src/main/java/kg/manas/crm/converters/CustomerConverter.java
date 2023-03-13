@@ -10,6 +10,6 @@ import java.util.Map;
 @Component
 public class CustomerConverter extends Converter<Customer, CustomerModel>{
     public CustomerConverter() {
-        super(Customer.class, CustomerModel.class, new HashMap<>());
+        super(Customer.class, CustomerModel.class);
     }
 }
