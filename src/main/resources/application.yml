@@ -16,4 +16,4 @@ spring:
 job:
   offer-constructor:
     enabled: true
-    cron: ${CRON:*/3 * * * * *}
+    cron: ${CRON:* * 0 * * *}
