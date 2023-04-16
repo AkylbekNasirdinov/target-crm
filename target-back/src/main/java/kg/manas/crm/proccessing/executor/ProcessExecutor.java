@@ -42,16 +42,11 @@ public class ProcessExecutor implements Runnable{
     public void run() {
         ProcessStep currentStep = processStepRepository.findByProcessIdAndIsInitialStepIsTrue(process.getId())
                 .orElseThrow();
-        boolean hasFinished = false;
-        while (hasFinished) {
+        while (currentStep.getNextStep() == null) {
             Action action = applicationContext.getBean(currentStep.getActionDefinition().getActionQualifier(), Action.class);
             List<ProcessStepParam> stepParams = processStepParamRepository.findAllByProcessStepId(currentStep.getId());
             action.execute(processContext, stepParams);
-            if (currentStep.getNextStep() != null) {
-                currentStep = currentStep.getNextStep();
-                continue;
-            }
-            hasFinished = true;
+            currentStep = currentStep.getNextStep();
         }
     }
 
