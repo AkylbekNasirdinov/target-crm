@@ -13,11 +13,11 @@ import java.util.List;
 @UtilityClass
 public class ReflectUtils {
 
-    public static List<Field> getClassFields(Class<?> type) {
+    public List<Field> getClassFields(Class<?> type) {
         return getAllFields(new ArrayList<>(), type);
     }
 
-    private static List<Field> getAllFields(List<Field> fields, Class<?> type) {
+    private List<Field> getAllFields(List<Field> fields, Class<?> type) {
         fields.addAll(Arrays.asList(type.getDeclaredFields()));
 
         if (type.getSuperclass() != null) {
@@ -27,7 +27,7 @@ public class ReflectUtils {
         return fields;
     }
 
-    public static void setFieldValue(Field fieldToSet, Object newValue, Object targetObject ) {
+    public void setFieldValue(Field fieldToSet, Object newValue, Object targetObject ) {
         if (fieldToSet == null || targetObject == null) return;
 
         boolean initialAccessibleState = false;
@@ -87,7 +87,7 @@ public class ReflectUtils {
     }
 
 
-    public static Object getFieldValue(Field fieldToGet, Object targetObject ) {
+    public Object getFieldValue(Field fieldToGet, Object targetObject ) {
         if (fieldToGet == null || targetObject == null) return null;
 
         boolean initialAccessibleState = false;
@@ -106,7 +106,7 @@ public class ReflectUtils {
         throw new IllegalArgumentException("Unable to extract value for field " + fieldToGet.getName() + " from object " + targetObject);
     }
 
-    public static Object findFirstAnnotatedFieldValue(Object targetClass, Class<? extends Annotation> annotation) {
+    public Object findFirstAnnotatedFieldValue(Object targetClass, Class<? extends Annotation> annotation) {
         if (targetClass == null) return null;
 
         Object fieldValue = null;

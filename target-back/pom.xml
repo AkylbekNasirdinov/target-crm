@@ -6,7 +6,6 @@
         <groupId>kg.manas</groupId>
         <artifactId>target-crm</artifactId>
         <version>0.0.1</version>
-        <relativePath/>
     </parent>
     <artifactId>target-back</artifactId>
     <version>0.0.1</version>
