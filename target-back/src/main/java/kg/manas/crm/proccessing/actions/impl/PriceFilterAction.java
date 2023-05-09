@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-@Service("priceFilterAction")
+@Service("priceFilter")
 public class PriceFilterAction implements Action {
     @Override
     public void execute(Map<String, Object> context, List<ProcessStepParam> params) {
