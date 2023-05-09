@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface ProcessStepRepository extends JpaRepository<ProcessStep, Long> {
     Optional<ProcessStep> findByProcessIdAndIsInitialStepIsTrue(Long processId);
+    Optional<ProcessStep> findByProcessId(Long processId);
 }

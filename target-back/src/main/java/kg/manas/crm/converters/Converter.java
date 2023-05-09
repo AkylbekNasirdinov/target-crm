@@ -5,15 +5,12 @@ import kg.manas.crm.utils.ReflectUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Map;
@@ -77,7 +74,7 @@ public abstract class Converter<Entity, Model> {
         return instance;
     }
 
-    public Entity convertToEntity(Model model) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchFieldException{
+    public Entity convertToEntity(Model model){
         Entity instance = null;
         try {
             instance = entityClass.getDeclaredConstructor().newInstance();
