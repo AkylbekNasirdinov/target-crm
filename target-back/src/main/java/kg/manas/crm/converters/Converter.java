@@ -4,22 +4,29 @@ import kg.manas.crm.annotations.Mapping;
 import kg.manas.crm.utils.ReflectUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
-import org.reflections.scanners.Scanners;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.reflections.ReflectionUtils.*;
+import static org.reflections.ReflectionUtils.Fields;
+import static org.reflections.ReflectionUtils.get;
 
 @Slf4j
 @Valid
+@Component
 public abstract class Converter<Entity, Model> {
 
     private final Class<Entity> entityClass;
@@ -27,18 +34,22 @@ public abstract class Converter<Entity, Model> {
     private final Set<Field> fieldsOfEntity;
     private final Set<Field> fieldsOfModel;
     private final Map<String, String> mappings;
+    private final Reflections reflections;
+    private  Set<Class<? extends Converter>> converters;
+    private final  ApplicationContext applicationContext;
 
-    Reflections reflections = new Reflections(new ConfigurationBuilder()
-            .setUrls(ClasspathHelper.forPackage("kg.manas.crm.converters"))
-            .setScanners(Scanners.values()));
-
-    public Converter(@NotNull Class<Entity> entityClass, @NotNull Class<Model> modelClass) {
+    public Converter(@NotNull Class<Entity> entityClass, @NotNull Class<Model> modelClass, Reflections reflections, ApplicationContext applicationContext) {
+        this.reflections = reflections;
+        this.applicationContext = applicationContext;
         this.entityClass = entityClass;
         this.modelClass = modelClass;
         this.fieldsOfEntity = get(Fields.of(entityClass));
         this.fieldsOfModel = get(Fields.of(modelClass));
+        this.converters = reflections.getSubTypesOf(Converter.class);
         this.mappings = this.getMappings();
     }
+
+
 
 
     public Model convetToModel(Entity entity){
@@ -101,9 +112,12 @@ public abstract class Converter<Entity, Model> {
     }
 
    private Converter getConverterByTypes(Class<Entity> entityClass, Class<Model> modelClass) {
-      return reflections.getSubTypesOf(Converter.class).stream()
-               .filter(subConverter -> isConverterOfClasses(entityClass, modelClass, subConverter))
-               .map(this::getConverterFromClass).findFirst().orElseThrow();
+      return this.getConverterFromClass(getConverterClass(entityClass, modelClass));
+    }
+
+    private Class<? extends Converter> getConverterClass(Class<Entity> entityClass, Class<Model> modelClass) {
+        return this.converters.stream()
+                .filter(subConverter -> isConverterOfClasses(entityClass, modelClass, subConverter)).findFirst().orElseThrow();
     }
 
     private boolean isConverterOfClasses(Class<Entity> entityClass, Class<Model> modelClass, Class<? extends Converter> subConverterClass) {
@@ -116,18 +130,12 @@ public abstract class Converter<Entity, Model> {
     }
 
     private Converter getConverterFromClass(Class<? extends Converter> subConverterClass) {
-        try {
-            return (Converter)subConverterClass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
+            return applicationContext.getBean(subConverterClass);
     }
 
     private Map<String, String> getMappings() {
-        Converter<?,?> subConverter = getConverterByTypes(this.entityClass, this.modelClass);
-        return Arrays.stream(subConverter.getClass().getAnnotations())
-                .filter(annotation -> annotation.annotationType().equals(Mapping.class))
-                .collect(Collectors.toMap(annotation -> ((Mapping)annotation).source(), annotation -> ((Mapping)annotation).target()));
+        return Arrays.stream(getClass().getAnnotationsByType(Mapping.class))
+                .collect(Collectors.toMap(Mapping::source, Mapping::target));
     }
 
 }
