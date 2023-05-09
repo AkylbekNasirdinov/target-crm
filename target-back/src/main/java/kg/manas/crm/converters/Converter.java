@@ -36,11 +36,11 @@ public abstract class Converter<Entity, Model> {
     private final Map<String, String> mappings;
     private final Reflections reflections;
     private  Set<Class<? extends Converter>> converters;
-    private final  ApplicationContext applicationContext;
+    @Autowired
+    private   ApplicationContext applicationContext;
 
-    public Converter(@NotNull Class<Entity> entityClass, @NotNull Class<Model> modelClass, Reflections reflections, ApplicationContext applicationContext) {
+    public Converter(@NotNull Class<Entity> entityClass, @NotNull Class<Model> modelClass, Reflections reflections) {
         this.reflections = reflections;
-        this.applicationContext = applicationContext;
         this.entityClass = entityClass;
         this.modelClass = modelClass;
         this.fieldsOfEntity = get(Fields.of(entityClass));

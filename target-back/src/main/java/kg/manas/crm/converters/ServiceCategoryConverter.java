@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ServiceCategoryConverter extends Converter<ServiceCategory, ServiceCategoryModel>{
 
-    public ServiceCategoryConverter(Reflections reflections, ApplicationContext applicationContext) {
-        super(ServiceCategory.class, ServiceCategoryModel.class, reflections, applicationContext);
+    public ServiceCategoryConverter(Reflections reflections) {
+        super(ServiceCategory.class, ServiceCategoryModel.class, reflections);
     }
 }
