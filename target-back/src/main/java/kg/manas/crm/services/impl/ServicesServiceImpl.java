@@ -7,6 +7,9 @@ import kg.manas.crm.services.ServicesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ServicesServiceImpl implements ServicesService {
@@ -17,5 +20,10 @@ public class ServicesServiceImpl implements ServicesService {
     @Override
     public ServiceModel findById(Long id) {
         return serviceConverter.convetToModel(serviceRepository.findById(id).orElseThrow());
+    }
+
+    @Override
+    public List<ServiceModel> findAll() {
+        return serviceRepository.findAll().stream().map(serviceConverter::convetToModel).collect(Collectors.toList());
     }
 }

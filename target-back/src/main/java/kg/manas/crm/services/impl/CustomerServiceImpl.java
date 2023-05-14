@@ -2,7 +2,7 @@ package kg.manas.crm.services.impl;
 
 import kg.manas.crm.converters.CustomerConverter;
 import kg.manas.crm.entities.Customer;
-import kg.manas.crm.entities.UserServices;
+import kg.manas.crm.entities.Purchase;
 import kg.manas.crm.models.CustomerModel;
 import kg.manas.crm.repository.CustomerRepository;
 import kg.manas.crm.repository.UserServicesRepository;
@@ -40,7 +40,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<UserServices> findPurchasesByCategoryInMonth(Long customerId) {
+    public List<Purchase> findPurchasesByCategoryInMonth(Long customerId) {
         return userServicesRepository.findCustomerPurchasesInMonth(customerId);
     }
 }

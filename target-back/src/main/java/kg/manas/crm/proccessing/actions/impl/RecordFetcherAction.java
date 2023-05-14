@@ -2,7 +2,7 @@ package kg.manas.crm.proccessing.actions.impl;
 
 import kg.manas.crm.entities.ProcessStepParam;
 import kg.manas.crm.entities.User;
-import kg.manas.crm.entities.UserServices;
+import kg.manas.crm.entities.Purchase;
 import kg.manas.crm.proccessing.actions.Action;
 import kg.manas.crm.repository.UserRepository;
 import kg.manas.crm.repository.UserServicesRepository;
@@ -23,7 +23,7 @@ public class RecordFetcherAction implements Action {
     @Override
     public void execute(Map<String, Object> context, List<ProcessStepParam> params) {
         List<User> users = userRepository.findAll();
-        List<List<UserServices>> partitionedUserServices = users.stream()
+        List<List<Purchase>> partitionedUserServices = users.stream()
                 .map(user -> userServicesRepository.findCustomerPurchasesInMonth(user.getId())).collect(Collectors.toList());
         context.put("monthlyPurchases", partitionedUserServices);
     }

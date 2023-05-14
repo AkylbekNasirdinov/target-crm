@@ -1,8 +1,7 @@
 package kg.manas.crm.proccessing.actions.impl;
 
 import kg.manas.crm.entities.ProcessStepParam;
-import kg.manas.crm.entities.ServiceCategory;
-import kg.manas.crm.entities.UserServices;
+import kg.manas.crm.entities.Purchase;
 import kg.manas.crm.enums.ParameterType;
 import kg.manas.crm.proccessing.actions.Action;
 import kg.manas.crm.utils.ConversionUtils;
@@ -16,7 +15,7 @@ public class CategoryFilterAction implements Action {
 
     @Override
     public void execute(Map<String, Object> context, List<ProcessStepParam> params) {
-        List<List<UserServices>> partitionedUserServices = (List<List<UserServices>>)context.get("monthlyPurchases");
+        List<List<Purchase>> partitionedUserServices = (List<List<Purchase>>)context.get("monthlyPurchases");
         String serviceCategory = ConversionUtils.getValueFromParams(params, ParameterType.CATEGORY);
         partitionedUserServices = filterUserServicesBySingleService(partitionedUserServices, userService -> userService.getPurchasedService().getCategory().getName().equals(serviceCategory));
         context.put("monthlyPurchases", partitionedUserServices);

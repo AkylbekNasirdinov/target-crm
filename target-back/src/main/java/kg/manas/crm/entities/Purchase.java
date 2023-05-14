@@ -9,10 +9,10 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @Getter
 @Setter
-@Table(name = "USER_SERVICES")
+@Table(name = "PURCHASES")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@SequenceGenerator(name = "id_generator", sequenceName = "user_services_seq", allocationSize = 1)
-public class UserServices extends BaseEntity {
+@SequenceGenerator(name = "id_generator", sequenceName = "purchases_seq", allocationSize = 1)
+public class Purchase extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "CUSTOMER_ID")
     Customer user;

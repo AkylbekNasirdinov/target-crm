@@ -1,7 +1,7 @@
 package kg.manas.crm.proccessing.actions.impl;
 
 import kg.manas.crm.entities.ProcessStepParam;
-import kg.manas.crm.entities.UserServices;
+import kg.manas.crm.entities.Purchase;
 import kg.manas.crm.enums.ParameterType;
 import kg.manas.crm.proccessing.actions.Action;
 import kg.manas.crm.utils.ConversionUtils;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class PriceFilterAction implements Action {
     @Override
     public void execute(Map<String, Object> context, List<ProcessStepParam> params) {
-        List<List<UserServices>> partitionedUserServices = (List<List<UserServices>>)context.get("monthlyPurchases");
+        List<List<Purchase>> partitionedUserServices = (List<List<Purchase>>)context.get("monthlyPurchases");
         if (!params.stream().allMatch(param -> param.getParameterType().equals(ParameterType.PRICE_MINIMUM) ||param.getParameterType().equals(ParameterType.SERVICE_AMOUNT)))
             throw new IllegalArgumentException("wrong parameter types provided for this type of action");
         BigDecimal priceLimit = ConversionUtils.getBigDecimal(params, ParameterType.PRICE_MINIMUM);

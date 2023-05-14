@@ -32,9 +32,9 @@ public abstract class Converter<Entity, Model> {
     private final Set<Field> fieldsOfModel;
     private final Map<String, String> mappings;
     private final Reflections reflections;
-    private  Set<Class<? extends Converter>> converters;
+    private Set<Class<? extends Converter>> converters;
     @Autowired
-    private   ApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     public Converter(@NotNull Class<Entity> entityClass, @NotNull Class<Model> modelClass, Reflections reflections) {
         this.reflections = reflections;
@@ -47,9 +47,7 @@ public abstract class Converter<Entity, Model> {
     }
 
 
-
-
-    public Model convetToModel(Entity entity){
+    public Model convetToModel(Entity entity) {
         Model instance = null;
         try {
             instance = modelClass.getDeclaredConstructor().newInstance();
@@ -59,11 +57,11 @@ public abstract class Converter<Entity, Model> {
                                 || modelField.getName().equals(mappings.get(entityField.getName())))
                         .findFirst();
                 if (modelFieldOptional.isEmpty())
-                    throw new NoSuchFieldException(MessageFormat.format("can not find field with name {0}", entityField.getName()));
+                    continue;
                 Object targetValue = ReflectUtils.getFieldValue(entityField, entity);
-                if (!modelFieldOptional.get().getType().equals(entityField.getType())){
-                   Converter converter = getConverterByTypes((Class<Entity>) entityField.getType(), (Class<Model>) modelFieldOptional.get().getType());
-                   targetValue = converter.convetToModel(targetValue);
+                if (!modelFieldOptional.get().getType().equals(entityField.getType())) {
+                    Converter converter = getConverterByTypes((Class<Entity>) entityField.getType(), (Class<Model>) modelFieldOptional.get().getType());
+                    targetValue = converter.convetToModel(targetValue);
                 }
                 ReflectUtils.setFieldValue(modelFieldOptional.get(), targetValue, instance);
             }
@@ -74,7 +72,7 @@ public abstract class Converter<Entity, Model> {
         return instance;
     }
 
-    public Entity convertToEntity(Model model){
+    public Entity convertToEntity(Model model) {
         Entity instance = null;
         try {
             instance = entityClass.getDeclaredConstructor().newInstance();
@@ -84,9 +82,9 @@ public abstract class Converter<Entity, Model> {
                                 || entityField.getName().equals(getKey(mappings, modelField.getName())))
                         .findFirst();
                 if (entityFieldOptional.isEmpty())
-                    throw new NoSuchFieldException(MessageFormat.format("can not find field with name {0}", modelField.getName()));
+                    continue;
                 Object targetValue = ReflectUtils.getFieldValue(modelField, model);
-                if (!entityFieldOptional.get().getType().equals(modelField.getType())){
+                if (!entityFieldOptional.get().getType().equals(modelField.getType())) {
                     Converter converter = getConverterByTypes((Class<Entity>) modelField.getType(), (Class<Model>) entityFieldOptional.get().getType());
                     targetValue = converter.convetToModel(targetValue);
                 }
@@ -108,8 +106,8 @@ public abstract class Converter<Entity, Model> {
         return null;
     }
 
-   private Converter getConverterByTypes(Class<Entity> entityClass, Class<Model> modelClass) {
-      return this.getConverterFromClass(getConverterClass(entityClass, modelClass));
+    private Converter getConverterByTypes(Class<Entity> entityClass, Class<Model> modelClass) {
+        return this.getConverterFromClass(getConverterClass(entityClass, modelClass));
     }
 
     private Class<? extends Converter> getConverterClass(Class<Entity> entityClass, Class<Model> modelClass) {
@@ -127,7 +125,7 @@ public abstract class Converter<Entity, Model> {
     }
 
     private Converter getConverterFromClass(Class<? extends Converter> subConverterClass) {
-            return applicationContext.getBean(subConverterClass);
+        return applicationContext.getBean(subConverterClass);
     }
 
     private Map<String, String> getMappings() {

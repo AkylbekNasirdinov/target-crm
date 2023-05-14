@@ -1,7 +1,7 @@
 package kg.manas.crm.proccessing.actions.impl;
 
 import kg.manas.crm.entities.ProcessStepParam;
-import kg.manas.crm.entities.UserServices;
+import kg.manas.crm.entities.Purchase;
 import kg.manas.crm.enums.ParameterType;
 import kg.manas.crm.proccessing.actions.Action;
 import kg.manas.crm.utils.ConversionUtils;
@@ -22,7 +22,7 @@ public class DateFilterAction implements Action {
         LocalDateTime [] datePeriod = ConversionUtils.getDatePeriod(params, ParameterType.DATE_PERIOD);
         LocalDateTime startDate = datePeriod[0];
         LocalDateTime endDate = datePeriod[1];
-        List<List<UserServices>> partitionedUserServices = (List<List<UserServices>>) context.get("monthlyPurchases");
+        List<List<Purchase>> partitionedUserServices = (List<List<Purchase>>) context.get("monthlyPurchases");
         partitionedUserServices = filterUserServicesBySingleService(partitionedUserServices, userService -> userService.getCreatedAt().isAfter(startDate)
                 && userService.getCreatedAt().isBefore(endDate));
         context.put("monthlyPurchases", partitionedUserServices);

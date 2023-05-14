@@ -1,9 +1,8 @@
 package kg.manas.crm.controller;
 
-import kg.manas.crm.entities.UserServices;
 import kg.manas.crm.job.OfferConstructor;
-import kg.manas.crm.models.UserServicesModel;
-import kg.manas.crm.services.UserService;
+import kg.manas.crm.models.PurchaseModel;
+import kg.manas.crm.services.PurchaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,18 +14,18 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
-public class UserController {
-    private final UserService userService;
+public class PurchaseController {
+    private final PurchaseService purchaseService;
     private final OfferConstructor offerConstructor;
 
     @GetMapping("/purchases/get-all")
-    public List<UserServicesModel> getAll() {
-        return userService.getAllPurchases();
+    public List<PurchaseModel> getAll() {
+        return purchaseService.getAllPurchases();
     }
 
     @PostMapping("/purchases/save")
-    public UserServicesModel purchase(Long serviceId, Long userId) {
-        return userService.purchase(serviceId, userId);
+    public PurchaseModel purchase(Long serviceId, Long userId) {
+        return purchaseService.purchase(serviceId, userId);
     }
 
     @PostMapping("/offers/construct")
