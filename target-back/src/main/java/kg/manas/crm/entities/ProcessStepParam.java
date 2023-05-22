@@ -11,9 +11,9 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "PROCESS_STEPS")
+@Table(name = "PROCESS_STEP_PARAMS")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@SequenceGenerator(name = "id_generator", sequenceName = "process_step_seq", allocationSize = 1)
+@SequenceGenerator(name = "id_generator", sequenceName = "process_step_param_seq", allocationSize = 1)
 public class ProcessStepParam extends BaseEntity{
     String value;
     @ManyToOne
