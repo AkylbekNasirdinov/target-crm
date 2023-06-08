@@ -1,5 +1,6 @@
 package kg.manas.crm.entities;
 
+import kg.manas.crm.enums.ParameterType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,4 +20,5 @@ public class ActionDefinition extends BaseEntity {
     String name;
     String description;
     String actionQualifier;
+    ParameterType requiredParameter;
 }

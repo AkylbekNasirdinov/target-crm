@@ -1,4 +1,3 @@
-import * as _ from 'lodash'
 import Vue from "vue";
 import * as servicesService from '/service/servicesService'
 

@@ -83,5 +83,8 @@
 <script>
 export default {
   name: 'IndexPage',
+  mounted() {
+    console.log('test')
+  }
 }
 </script>

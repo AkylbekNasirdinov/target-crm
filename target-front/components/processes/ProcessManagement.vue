@@ -48,8 +48,9 @@
               </v-btn>
             </td>
             <td>
-              <v-btn  icon>
-                <v-icon @click="(item)">
+              <v-btn icon>
+                  <v-icon color="primary"
+                  @click="redirectToSteps(item)">
                   mdi-cog
                 </v-icon>
               </v-btn>
@@ -87,6 +88,9 @@ export default {
         {text: 'Редактировать'},
         {text: 'Настроить шаги'},
       ]
+    },
+    redirectToSteps(process) {
+      this.$router.push(`/processes/${process.id}/steps`)
     }
   }
 }
