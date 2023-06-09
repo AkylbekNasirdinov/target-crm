@@ -84,7 +84,7 @@
 export default {
   name: 'IndexPage',
   mounted() {
-    console.log('test')
+    this.$router.push('/processes')
   }
 }
 </script>

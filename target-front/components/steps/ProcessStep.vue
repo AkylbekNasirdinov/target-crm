@@ -9,7 +9,7 @@
             @dragstart="onDrag($event, step)">
       <v-card-title
         class="d-flex justify-center">
-        {{ step.actionDefinition.name }}
+        {{ getStepName }}
       </v-card-title>
       <v-card-text class="d-flex justify-center">
         <step-param
@@ -36,26 +36,35 @@ export default {
   components: {StepParam},
   props: ['step'],
   computed: {
-    ...mapGetters('stepStore', {getParams: 'getStepParam'})
+    ...mapGetters('stepStore', {getParams: 'getStepParam'}),
+    getStepName() {
+      return this.step && this.step.actionDefinition ? this.step.actionDefinition.name : ''
+    }
   },
   mounted() {
-    this.fetchParams(this.step.id)
+    this.fetchStepParams()
   },
   methods: {
     ...mapActions('stepStore', {fetchParams: 'fetchStepParams'}),
     onDrag(event, step) {
-      console.log(step)
       event.dataTransfer.dropEffect = 'move'
       event.dataTransfer.effectAllowed = 'move'
       event.dataTransfer.setData("Object", JSON.stringify(step));
     },
     onDrop(event, step) {
-      console.log(step)
       let data = JSON.parse(event.dataTransfer.getData("Object"));
-      debugger
+      let steps = []
+      steps.push(step.id)
+      steps.push(data.id)
+      this.$emit('dropStep', steps)
     },
+
     addParam() {
 
+    },
+    fetchStepParams() {
+      if (this.step && this.step.id)
+        this.fetchParams(this.step.id)
     }
   }
 }
