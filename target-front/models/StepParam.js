@@ -9,6 +9,7 @@ class StepParam {
     /** @type {Number} */ this.id = _.get(props, 'id') || null
     /** @type {String} */ this.value = _.get(props, 'value') || null
     /** @type {String} */ this.parameterType = _.get(props, 'parameterType') || null
+    /** @type {Number} */ this.stepId = _.get(props, 'stepId') || null
   }
 }
 

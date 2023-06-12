@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -20,5 +18,6 @@ public class ActionDefinition extends BaseEntity {
     String name;
     String description;
     String actionQualifier;
+    @Enumerated(EnumType.STRING)
     ParameterType requiredParameter;
 }

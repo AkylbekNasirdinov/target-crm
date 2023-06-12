@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col v-for="step in steps"
-        key="id">
+       >
         <process-step
           :step="step"
           @dropStep="changeOrder"
@@ -24,8 +24,17 @@ export default {
   computed: {
     ...mapGetters('stepStore', {steps: 'getSteps'})
   },
+  watch: {
+    steps(newValue, oldValue) {
+      if (newValue) {
+        let stepIds = newValue.map(step => step.id)
+        this.fetchProcessParams(stepIds)
+      }
+    }
+  },
   methods: {
     ...mapActions('stepStore', {changeStepOrder: 'changeStepOrder'}),
+    ...mapActions('paramStore', {fetchStepParams: 'fetchStepParams'}),
     changeOrder(changedSteps) {
       let currentOrder = this.steps.map(step => step.id)
       let firstIndex = currentOrder.indexOf(changedSteps[0])
@@ -36,8 +45,13 @@ export default {
       currentOrder[firstIndex] = currentOrder[secondIndex]
       currentOrder[secondIndex] = temp
       this.changeStepOrder(currentOrder)
+    },
+    fetchProcessParams(stepIds) {
+      for(let i = 0; i < stepIds.length; i++) {
+        this.fetchStepParams(stepIds[i])
+      }
     }
-  }
+  },
 }
 </script>
 

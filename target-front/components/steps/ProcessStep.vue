@@ -6,19 +6,19 @@
     @drop="onDrop($event, step)">
     <v-card v-bind="$attrs"
             draggable="true"
-            @dragstart="onDrag($event, step)">
+            @dragstart="onDrag($event, step)"
+            min-height="120">
       <v-card-title
         class="d-flex justify-center">
         {{ getStepName }}
       </v-card-title>
-      <v-card-text class="d-flex justify-center">
+      <v-card-text class="d-flex justify-center" >
         <step-param
-          v-if="false"
-          :param="{}"
-          :categories="[]"
+          v-if="step?.stepId"
+          :param="parameter"
         />
-        <v-btn v-else
-          @click=""
+        <v-btn v-else-if="step && !step.isInitialStep"
+          @click="addParam()"
           color="primary"
           width="90%">
           <v-icon>add</v-icon>
@@ -29,23 +29,38 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import StepParam from "../param/StepParam";
+import Parameter from "/models/StepParam"
 export default {
   name: "ProcessStep",
   components: {StepParam},
   props: ['step'],
-  computed: {
-    ...mapGetters('stepStore', {getParams: 'getStepParam'}),
-    getStepName() {
-      return this.step && this.step.actionDefinition ? this.step.actionDefinition.name : ''
+  data () {
+    return {
+      param: {}
     }
   },
-  mounted() {
-    this.fetchStepParams()
+  computed: {
+    ...mapState('paramStore', {params: 'params', busy: 'busy'}),
+    ...mapGetters('paramStore', {getParams: 'getStepParam'}),
+    parameter: {
+      get() {
+        if (this.step)
+        return  this.params.get(this.step.id) || this.param
+        return this.param
+      },
+      set(newValue) {
+        this.param = newValue
+      }
+    },
+    getStepName() {
+      return this.step && this.step.actionDefinition ? this.step.actionDefinition.name : ''
+    },
   },
   methods: {
-    ...mapActions('stepStore', {fetchParams: 'fetchStepParams'}),
+
+    ...mapActions('paramStore', {fetchParams: 'fetchStepParams'}),
     onDrag(event, step) {
       event.dataTransfer.dropEffect = 'move'
       event.dataTransfer.effectAllowed = 'move'
@@ -60,11 +75,15 @@ export default {
     },
 
     addParam() {
-
+      this.parameter =  new Parameter({'stepId': this.step.id, 'parameterType': this.step.actionDefinition.requiredParameter})
     },
     fetchStepParams() {
-      if (this.step && this.step.id)
-        this.fetchParams(this.step.id)
+      if (this.step && this.step.id && !this.busy){
+        debugger
+        console.log('param: ' + this.params.get(this.step.id))
+        this.param = this.params.get(this.step.id)
+      }
+
     }
   }
 }

@@ -10,9 +10,11 @@ export default {
   components: {ProcessManagement},
   mounted() {
     this.fetchProcesses()
+    this.fetchCategories()
   },
   methods: {
-    ...mapActions('processesStore', { fetchProcesses: 'fetchProcesses' })
+    ...mapActions('processesStore', { fetchProcesses: 'fetchProcesses' }),
+    ...mapActions('paramStore', {fetchCategories: 'fetchCategories'}),
   }
 }
 </script>

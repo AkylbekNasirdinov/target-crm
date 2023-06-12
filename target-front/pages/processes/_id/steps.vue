@@ -10,9 +10,11 @@ export default {
   components: {ProcessStepManagement},
   methods: {
     ...mapActions('stepStore', {fetchSteps: 'fetchSteps'}),
+    ...mapActions('paramStore', {fetchCategories: 'fetchCategories'}),
   },
   mounted() {
     this.fetchSteps(this.$route.params.id)
+    this.fetchCategories()
   }
 }
 </script>

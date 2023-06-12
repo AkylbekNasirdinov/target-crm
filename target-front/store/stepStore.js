@@ -5,7 +5,6 @@ import _ from "lodash";
 function _initialState() {
   return {
     steps : [],
-    params: new Map()
   }
 }
 
@@ -14,9 +13,6 @@ export const state = () => (_initialState())
 export const getters = {
   getSteps(state) {
     return sortSteps(state.steps);
-  },
-  getStepParam(state, stepId) {
-    return state.params.get(stepId)
   }
 }
 
@@ -28,15 +24,6 @@ export const actions = {
       })
       .catch(reason => {
         commit('SET_UNIVERSAL', {key : 'steps',  payload : []})
-        console.log( reason)
-      })
-  },
-  fetchStepParams({commit}, stepId) {
-    stepService.fetchStepParams(stepId)
-      .then(response => {
-        commit('PUT_PARAM', {key: stepId, value: response.data})
-      })
-      .catch(reason => {
         console.log( reason)
       })
   },
@@ -57,9 +44,6 @@ const sortSteps = (steps) => {
 export const mutations = {
   SET_UNIVERSAL (state, payload) {
     Vue.set(state, payload.key, payload.payload)
-  },
-  PUT_PARAM (state, payload) {
-    state.params.set(payload.key, payload.value)
   },
   CHANGE_ORDER(state, order) {
     let newSteps = []

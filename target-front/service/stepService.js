@@ -9,11 +9,3 @@ export const fetchProcessSteps = (processId) => {
     }
   })
 }
-
-export const fetchStepParams = (stepId) => {
-  return apiService.get('/step/params', {
-    params: {
-      id: stepId
-    }
-  })
-}

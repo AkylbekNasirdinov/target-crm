@@ -1,43 +1,55 @@
 <template>
-  <v-card>
+  <div>
     <v-card-title>
-      {{ param.parameterType }}
+      {{ getParameterType }}
     </v-card-title>
     <v-card-text>
       <v-select
-        v-if="param.parameterType === 'CATEGORY'"
+        v-if="getParameterType === 'CATEGORY'"
         :items="this.categories"
+        item-text="name"
         item-value="name"
         v-model="param.value"/>
       <v-text-field
-        v-if="this.in(['SERVICE_AMOUNT', 'PRICE_MINIMUM', 'PRICE_TOTAL'], param.parameterType)"
+        v-else-if="this.in(['SERVICE_AMOUNT', 'PRICE_MINIMUM', 'PRICE_TOTAL'], getParameterType)"
         v-model="param.value"/>
-      <v-row v-else>
+      <v-row v-else-if="getParameterType === 'DATE_PERIOD'">
         <v-date-picker
           range
           v-model="dateRange"/>
       </v-row>
     </v-card-text>
-  </v-card>
+  </div>
 </template>
 
 <script>
 import * as _ from 'lodash'
+import {mapGetters} from "vuex";
 
 export default {
   name: "StepParam",
   props: {
     param: Object,
-    categories: Array
   },
   data() {
     return {
       dateRange: ''
     }
   },
+  mounted() {
+  },
+  computed: {
+    ...mapGetters('paramStore', {categories: 'getCategories'}),
+    getParameterType() {
+      return this.param ? this.param.parameterType : ''
+    }
+  },
   methods: {
     in(array, value) {
       return _.includes(array, value)
+    },
+    showProps() {
+      console.log(this.param)
     }
   }
 
