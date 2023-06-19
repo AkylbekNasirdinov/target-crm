@@ -19,6 +19,6 @@ public class ProcessStepParam extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "PROCESS_STEP")
     ProcessStep processStep;
-
+    @Enumerated(EnumType.STRING)
     ParameterType parameterType;
 }

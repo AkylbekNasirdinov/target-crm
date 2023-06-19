@@ -13,23 +13,18 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("/purchases")
 public class PurchaseController {
     private final PurchaseService purchaseService;
-    private final OfferConstructor offerConstructor;
 
-    @GetMapping("/purchases/get-all")
+    @GetMapping("/get-all")
     public List<PurchaseModel> getAll() {
         return purchaseService.getAllPurchases();
     }
 
-    @PostMapping("/purchases/save")
+    @PostMapping("/save")
     public PurchaseModel purchase(Long serviceId, Long userId) {
         return purchaseService.purchase(serviceId, userId);
     }
 
-    @PostMapping("/offers/construct")
-    public void construct() {
-        offerConstructor.constructOffers();
-    }
 }

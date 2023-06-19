@@ -1,5 +1,6 @@
 package kg.manas.crm.controller;
 
+import kg.manas.crm.models.ParameterRequestModel;
 import kg.manas.crm.models.ProcessStepParamModel;
 import kg.manas.crm.services.ProcessStepParamService;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +16,13 @@ public class ProcessStepParamController {
     private final ProcessStepParamService processStepParamService;
 
     @GetMapping
-    List<ProcessStepParamModel> fetchParamsByStepId(@RequestParam Long id) {
+    ProcessStepParamModel fetchParamsByStepId(@RequestParam Long id) {
         return processStepParamService.getAllParamsByStepId(id);
     }
 
 
     @PostMapping
-    ProcessStepParamModel create(ProcessStepParamModel processStepParamModel) {
-        return processStepParamService.create(processStepParamModel);
+    ProcessStepParamModel create(ParameterRequestModel processStepParamModel) {
+        return processStepParamService.save(processStepParamModel);
     }
 }

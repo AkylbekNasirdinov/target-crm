@@ -14,10 +14,11 @@
       </v-card-title>
       <v-card-text class="d-flex justify-center" >
         <step-param
-          v-if="step?.stepId"
-          :param="parameter"
+          v-if="getParams(step?.id) !== null && getParams(step?.id) !== undefined "
+          :param="getParams(step?.id)"
         />
-        <v-btn v-else-if="step && !step.isInitialStep"
+        <v-btn
+          v-else-if="getParams(step?.id) === null || getParams(step?.id) === undefined && !!step?.actionDefinition.requiredParameter"
           @click="addParam()"
           color="primary"
           width="90%">
@@ -29,37 +30,24 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapState} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 import StepParam from "../param/StepParam";
 import Parameter from "/models/StepParam"
 export default {
   name: "ProcessStep",
   components: {StepParam},
   props: ['step'],
-  data () {
-    return {
-      param: {}
-    }
-  },
   computed: {
-    ...mapState('paramStore', {params: 'params', busy: 'busy'}),
     ...mapGetters('paramStore', {getParams: 'getStepParam'}),
-    parameter: {
-      get() {
-        if (this.step)
-        return  this.params.get(this.step.id) || this.param
-        return this.param
-      },
-      set(newValue) {
-        this.param = newValue
-      }
+    canDrag() {
+      return !!this.step?.actionDefinition?.requiredParameter
     },
     getStepName() {
-      return this.step && this.step.actionDefinition ? this.step.actionDefinition.name : ''
+      return this.step?.actionDefinition?.name
     },
   },
   methods: {
-
+    ...mapMutations('paramStore', {putParam: 'PUT_PARAM'}),
     ...mapActions('paramStore', {fetchParams: 'fetchStepParams'}),
     onDrag(event, step) {
       event.dataTransfer.dropEffect = 'move'
@@ -75,7 +63,8 @@ export default {
     },
 
     addParam() {
-      this.parameter =  new Parameter({'stepId': this.step.id, 'parameterType': this.step.actionDefinition.requiredParameter})
+      let param = new Parameter({'stepId': this.step.id, 'parameterType': this.step.actionDefinition.requiredParameter})
+      this.putParam({key: this.step.id, value: param})
     },
     fetchStepParams() {
       if (this.step && this.step.id && !this.busy){

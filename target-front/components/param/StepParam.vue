@@ -5,15 +5,15 @@
     </v-card-title>
     <v-card-text>
       <v-select
-        v-if="getParameterType === 'CATEGORY'"
+        v-if="this.param.parameterType === 'CATEGORY'"
         :items="this.categories"
         item-text="name"
         item-value="name"
         v-model="param.value"/>
       <v-text-field
-        v-else-if="this.in(['SERVICE_AMOUNT', 'PRICE_MINIMUM', 'PRICE_TOTAL'], getParameterType)"
+        v-else-if="this.in(['SERVICE_AMOUNT', 'PRICE_MINIMUM', 'PRICE_TOTAL'], this.param.parameterType)"
         v-model="param.value"/>
-      <v-row v-else-if="getParameterType === 'DATE_PERIOD'">
+      <v-row v-else-if="this.param.parameterType === 'DATE_PERIOD'">
         <v-date-picker
           range
           v-model="dateRange"/>
@@ -33,7 +33,12 @@ export default {
   },
   data() {
     return {
-      dateRange: ''
+      dateRange: '',
+      parameterTypes: [{key: 'CATEGORY', value: 'Категория'},
+                       {key: 'SERVICE_AMOUNT', value: 'Количество Услуг'},
+                       {key: 'PRICE_MINIMUM', value: 'Минимальная Цена'},
+                       {key: 'PRICE_TOTAL', value: 'Общая Стоимость'},
+                       {key: 'DATE_PERIOD', value: 'Период Времени'}]
     }
   },
   mounted() {
@@ -41,7 +46,7 @@ export default {
   computed: {
     ...mapGetters('paramStore', {categories: 'getCategories'}),
     getParameterType() {
-      return this.param ? this.param.parameterType : ''
+      return _.find(this.parameterTypes, (parameterType) => {return parameterType.key === this.param.parameterType}).value
     }
   },
   methods: {

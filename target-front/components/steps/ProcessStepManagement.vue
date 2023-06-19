@@ -9,6 +9,8 @@
         />
       </v-col>
     </v-row>
+
+    <v-btn color="primary">Сохранить</v-btn>
   </v-container>
 </template>
 

@@ -3,6 +3,8 @@ package kg.manas.crm.entities;
 
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +24,7 @@ public abstract class BaseEntity {
     protected Long id;
 
     @Column(name="created_at")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     protected LocalDateTime createdAt;
     @Column(name="updated_at")
     protected LocalDateTime updatedAt;

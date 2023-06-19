@@ -24,7 +24,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public PurchaseModel purchase(Long serviceId, Long customerId) {
         Purchase userService = new Purchase();
-        userService.setUser(customerService.findById(customerId));
+        userService.setCustomer(customerService.findById(customerId));
         userService.setPurchasedService(serviceRepository.findById(serviceId).orElseThrow());
         return purchaseConverter.convetToModel(userServicesRepository.save(userService));
     }

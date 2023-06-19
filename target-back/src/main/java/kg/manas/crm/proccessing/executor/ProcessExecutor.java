@@ -36,18 +36,22 @@ public class ProcessExecutor implements Runnable{
     public ProcessExecutor(@NotNull Process process) {
         this.process = process;
         this.processContext = new HashMap<>();
+        this.processContext.put("process", process);
     }
 
     @Override
     public void run() {
         ProcessStep currentStep = processStepRepository.findByProcessIdAndIsInitialStepIsTrue(process.getId())
                 .orElseThrow();
-        while (currentStep.getNextStep() == null) {
+        while (true) {
             Action action = applicationContext.getBean(currentStep.getActionDefinition().getActionQualifier(), Action.class);
             List<ProcessStepParam> stepParams = processStepParamRepository.findAllByProcessStepId(currentStep.getId());
             action.execute(processContext, stepParams);
             currentStep = currentStep.getNextStep();
+            if (currentStep == null)
+                break;
         }
+
     }
 
 }

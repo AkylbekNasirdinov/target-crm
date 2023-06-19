@@ -17,13 +17,13 @@ public class ProcessStepServiceImpl implements ProcessStepService {
     private final ProcessStepRepository processStepRepository;
     private final ProcessStepConverter processStepConverter;
     @Override
-    public List<ProcessStepModel> getAllByProcessId(Long processId) {
-        return processStepRepository.findByProcessId(processId).stream().map(processStepConverter::convetToModel).collect(Collectors.toList());
+    public List<ProcessStep> getAllByProcessId(Long processId) {
+        return processStepRepository.findAllByProcessId(processId);
     }
 
     @Override
-    public ProcessStepModel create(ProcessStepModel processStepModel) {
+    public ProcessStep create(ProcessStepModel processStepModel) {
         ProcessStep processStep = processStepRepository.save(processStepConverter.convertToEntity(processStepModel));
-        return processStepConverter.convetToModel(processStep);
+        return processStep;
     }
 }

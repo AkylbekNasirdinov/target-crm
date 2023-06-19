@@ -1,8 +1,6 @@
 package kg.manas.crm.entities;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -11,6 +9,9 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "OFFERS")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @SequenceGenerator(name = "id_generator", sequenceName = "offers_seq", allocationSize = 1)
 public class Offer extends BaseEntity {
@@ -22,4 +23,7 @@ public class Offer extends BaseEntity {
     Customer customer;
     @Column(name = "IS_CONFIRMED")
     Boolean isConfirmed;
+    @ManyToOne
+    @JoinColumn(name = "PROCESS_ID")
+    Process process;
 }

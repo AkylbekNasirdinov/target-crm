@@ -15,7 +15,7 @@ import lombok.experimental.FieldDefaults;
 public class Purchase extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "CUSTOMER_ID")
-    Customer user;
+    Customer customer;
     @ManyToOne
     @JoinColumn(name = "PURCHASED_SERVICE")
     Service purchasedService;
